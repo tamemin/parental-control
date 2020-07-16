@@ -9,8 +9,11 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
-import uk.tamer.parental.api.*;
-import uk.tamer.parental.impl.ParentalControlServiceImpl;
+import uk.tamer.parental.movie.client.TechnicalFailureException;
+import uk.tamer.parental.movie.client.TitleNotFoundException;
+import uk.tamer.parental.service.*;
+import uk.tamer.parental.service.impl.ParentalControlServiceImpl;
+import uk.tamer.parental.movie.client.MovieService;
 
 
 /**
@@ -49,14 +52,14 @@ public class ParentalControlTest {
     }
 
     /**
-     * Test that TechnicalFailureException will bubble up when thrown from the movie service
+     * Test that TechnicalFailureException does not break the API
      */
-    @Test(expected = TechnicalFailureException.class)
+    @Test
     public void technicalFailureTest() {
 
         when(movieService.getParentalControlLevel(any(String.class))).thenThrow( new TechnicalFailureException());
 
-        parentalControlService.isAbleToViewMovie(ControlLevel.LEVEL_18, movieId);
+        assertFalse(parentalControlService.isAbleToViewMovie(ControlLevel.LEVEL_18, movieId));
     }
 
 
@@ -64,12 +67,13 @@ public class ParentalControlTest {
      * Try to break the control with an invalid value (null)
      */
     @Test(expected = TitleNotFoundException.class)
-    public void failSafeTest() {
+    public void failSafeNullControlTest() {
 
         when(movieService.getParentalControlLevel(any(String.class))).thenReturn(ControlLevel.LEVEL_18.toString());
         assertTrue(parentalControlService.isAbleToViewMovie(null, movieId));
 
     }
+
 
 	@Test
 	public void level_U_OK_Test() throws Exception {

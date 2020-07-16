@@ -1,4 +1,4 @@
-package uk.tamer.parental.api;
+package uk.tamer.parental.movie.client;
 
 /**
  * Provides a lower level service to get information about movies

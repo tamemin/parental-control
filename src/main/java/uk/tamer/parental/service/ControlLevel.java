@@ -1,4 +1,4 @@
-package uk.tamer.parental.api;
+package uk.tamer.parental.service;
 
 /**
  * Simple enum for parental control levels

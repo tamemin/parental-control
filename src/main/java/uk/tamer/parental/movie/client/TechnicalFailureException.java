@@ -1,4 +1,4 @@
-package uk.tamer.parental.api;
+package uk.tamer.parental.movie.client;
 
 public class TechnicalFailureException extends RuntimeException {
 }
